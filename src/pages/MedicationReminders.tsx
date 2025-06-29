@@ -11,7 +11,6 @@ import {
   Trash2,
   CheckCircle
 } from 'lucide-react';
-import { motion } from 'framer-motion';
 import { format, addDays, startOfWeek, addWeeks } from 'date-fns';
 import { useLanguage } from '../contexts/LanguageContext';
 import { Medication } from '../types';
@@ -154,12 +153,10 @@ const MedicationReminders: React.FC = () => {
               
               <div className="space-y-4">
                 {getTodaySchedule().map(({ time, medications: meds }, index) => (
-                  <motion.div
+                  <div
                     key={time}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: index * 0.1 }}
-                    className="flex items-center p-4 bg-gray-50 rounded-lg"
+                    className="flex items-center p-4 bg-gray-50 rounded-lg animate-fade-in-up"
+                    style={{ animationDelay: `${index * 0.1}s` }}
                   >
                     <div className="flex-shrink-0 w-16 text-center">
                       <div className="text-lg font-semibold text-gray-900">{time}</div>
@@ -189,7 +186,7 @@ const MedicationReminders: React.FC = () => {
                         </div>
                       ))}
                     </div>
-                  </motion.div>
+                  </div>
                 ))}
               </div>
             </div>
@@ -198,25 +195,15 @@ const MedicationReminders: React.FC = () => {
           {/* Weekly Calendar */}
           <Card>
             <div className="p-6">
-              <h2 className="text-xl font-semibold text-gray-900 mb-4">Weekly Overview</h2>
-              
+              <h2 className="text-xl font-semibold text-gray-900 mb-4">Weekly Calendar</h2>
               <div className="grid grid-cols-7 gap-2">
-                {getWeekDays().map(day => (
-                  <div key={day.toISOString()} className="text-center">
-                    <div className="text-sm font-medium text-gray-500 mb-2">
+                {getWeekDays().map((day, index) => (
+                  <div key={index} className="text-center p-2 border rounded">
+                    <div className="text-xs text-gray-500 mb-1">
                       {format(day, 'EEE')}
                     </div>
-                    <div className={`text-lg font-semibold p-2 rounded ${
-                      format(day, 'yyyy-MM-dd') === format(new Date(), 'yyyy-MM-dd')
-                        ? 'bg-primary-500 text-white'
-                        : 'text-gray-900'
-                    }`}>
+                    <div className="text-sm font-medium">
                       {format(day, 'd')}
-                    </div>
-                    <div className="mt-2 space-y-1">
-                      {medications.slice(0, 2).map(med => (
-                        <div key={med.id} className="w-full h-1 bg-primary-200 rounded"></div>
-                      ))}
                     </div>
                   </div>
                 ))}
@@ -225,124 +212,46 @@ const MedicationReminders: React.FC = () => {
           </Card>
         </div>
 
-        {/* Medication List & Settings */}
+        {/* Medication List */}
         <div className="space-y-6">
           <Card>
             <div className="p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Active Medications</h3>
-              
+              <h2 className="text-xl font-semibold text-gray-900 mb-4">Your Medications</h2>
               <div className="space-y-4">
                 {medications.map(med => (
-                  <motion.div
-                    key={med.id}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    className="border border-gray-200 rounded-lg p-4"
-                  >
-                    <div className="flex items-start justify-between mb-3">
-                      <div>
-                        <h4 className="font-medium text-gray-900">{med.name}</h4>
-                        <p className="text-sm text-gray-600">{med.dosage} • {med.frequency}</p>
+                  <div key={med.id} className="border rounded-lg p-4">
+                    <div className="flex justify-between items-start mb-2">
+                      <h3 className="font-medium text-gray-900">{med.name}</h3>
+                      <Button size="sm" variant="outline" onClick={() => deleteMedication(med.id)}>
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    </div>
+                    <p className="text-sm text-gray-600 mb-2">{med.dosage} • {med.frequency}</p>
+                    <p className="text-xs text-gray-500 mb-3">Duration: {med.duration}</p>
+                    
+                    <div className="space-y-2">
+                      <div className="text-xs font-medium text-gray-700">Reminder Methods:</div>
+                      <div className="flex flex-wrap gap-2">
+                        {(['whatsapp', 'call', 'notification'] as const).map(method => (
+                          <button
+                            key={method}
+                            onClick={() => toggleReminder(med.id, method)}
+                            className={`flex items-center px-2 py-1 rounded text-xs ${
+                              med.reminderMethods.includes(method)
+                                ? 'bg-primary-100 text-primary-700'
+                                : 'bg-gray-100 text-gray-600'
+                            }`}
+                          >
+                            {method === 'whatsapp' && <MessageSquare className="h-3 w-3 mr-1" />}
+                            {method === 'call' && <Phone className="h-3 w-3 mr-1" />}
+                            {method === 'notification' && <Bell className="h-3 w-3 mr-1" />}
+                            {method}
+                          </button>
+                        ))}
                       </div>
-                      <div className="flex space-x-1">
-                        <button className="text-gray-400 hover:text-primary-500">
-                          <Edit3 className="h-4 w-4" />
-                        </button>
-                        <button 
-                          onClick={() => deleteMedication(med.id)}
-                          className="text-gray-400 hover:text-red-500"
-                        >
-                          <Trash2 className="h-4 w-4" />
-                        </button>
-                      </div>
                     </div>
-
-                    <div className="flex flex-wrap gap-2 mb-3">
-                      {med.times.map(time => (
-                        <span key={time} className="bg-primary-100 text-primary-800 px-2 py-1 rounded text-xs">
-                          {time}
-                        </span>
-                      ))}
-                    </div>
-
-                    <div className="flex items-center space-x-3">
-                      <button
-                        onClick={() => toggleReminder(med.id, 'whatsapp')}
-                        className={`flex items-center text-xs ${
-                          med.reminderMethods.includes('whatsapp')
-                            ? 'text-green-600'
-                            : 'text-gray-400'
-                        }`}
-                      >
-                        <MessageSquare className="h-3 w-3 mr-1" />
-                        WhatsApp
-                      </button>
-                      
-                      <button
-                        onClick={() => toggleReminder(med.id, 'call')}
-                        className={`flex items-center text-xs ${
-                          med.reminderMethods.includes('call')
-                            ? 'text-blue-600'
-                            : 'text-gray-400'
-                        }`}
-                      >
-                        <Phone className="h-3 w-3 mr-1" />
-                        Call
-                      </button>
-                      
-                      <button
-                        onClick={() => toggleReminder(med.id, 'notification')}
-                        className={`flex items-center text-xs ${
-                          med.reminderMethods.includes('notification')
-                            ? 'text-purple-600'
-                            : 'text-gray-400'
-                        }`}
-                      >
-                        <Bell className="h-3 w-3 mr-1" />
-                        Push
-                      </button>
-                    </div>
-                  </motion.div>
+                  </div>
                 ))}
-              </div>
-            </div>
-          </Card>
-
-          {/* Reminder Settings */}
-          <Card>
-            <div className="p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Reminder Settings</h3>
-              
-              <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <div className="font-medium text-gray-900">WhatsApp Reminders</div>
-                    <div className="text-sm text-gray-600">Get reminders via WhatsApp</div>
-                  </div>
-                  <div className="w-10 h-6 bg-primary-500 rounded-full relative cursor-pointer">
-                    <div className="w-4 h-4 bg-white rounded-full absolute top-1 right-1 transition-transform"></div>
-                  </div>
-                </div>
-
-                <div className="flex items-center justify-between">
-                  <div>
-                    <div className="font-medium text-gray-900">Voice Call Reminders</div>
-                    <div className="text-sm text-gray-600">AI voice calls for important doses</div>
-                  </div>
-                  <div className="w-10 h-6 bg-primary-500 rounded-full relative cursor-pointer">
-                    <div className="w-4 h-4 bg-white rounded-full absolute top-1 right-1 transition-transform"></div>
-                  </div>
-                </div>
-
-                <div className="flex items-center justify-between">
-                  <div>
-                    <div className="font-medium text-gray-900">Multilingual Support</div>
-                    <div className="text-sm text-gray-600">Reminders in your native language</div>
-                  </div>
-                  <div className="w-10 h-6 bg-primary-500 rounded-full relative cursor-pointer">
-                    <div className="w-4 h-4 bg-white rounded-full absolute top-1 right-1 transition-transform"></div>
-                  </div>
-                </div>
               </div>
             </div>
           </Card>
@@ -352,112 +261,66 @@ const MedicationReminders: React.FC = () => {
       {/* Add Medication Modal */}
       {showAddForm && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="bg-white rounded-lg p-6 w-full max-w-md"
-          >
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Add New Medication</h3>
-            
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Medication Name
-                </label>
-                <input
-                  type="text"
-                  value={newMedication.name || ''}
-                  onChange={(e) => setNewMedication({ ...newMedication, name: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-                  placeholder="e.g., Paracetamol 500mg"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Dosage
-                </label>
-                <input
-                  type="text"
-                  value={newMedication.dosage || ''}
-                  onChange={(e) => setNewMedication({ ...newMedication, dosage: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-                  placeholder="e.g., 1 tablet"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Times (comma separated)
-                </label>
-                <input
-                  type="text"
-                  value={newMedication.times?.join(', ') || ''}
-                  onChange={(e) => setNewMedication({ 
-                    ...newMedication, 
-                    times: e.target.value.split(',').map(t => t.trim()) 
-                  })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-                  placeholder="e.g., 09:00, 21:00"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">How many days?</label>
-                <input
-                  type="number"
-                  min={1}
-                  className="w-full border rounded px-3 py-2 mb-4"
-                  value={newMedication.days || ''}
-                  onChange={e => setNewMedication({ ...newMedication, days: Number(e.target.value) })}
-                  placeholder="Enter number of days"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Reminder Methods
-                </label>
-                <div className="space-y-2">
-                  {[
-                    { key: 'whatsapp', label: 'WhatsApp', icon: MessageSquare },
-                    { key: 'call', label: 'Voice Call', icon: Phone },
-                    { key: 'notification', label: 'Push Notification', icon: Bell }
-                  ].map(({ key, label, icon: Icon }) => (
-                    <label key={key} className="flex items-center">
-                      <input
-                        type="checkbox"
-                        checked={newMedication.reminderMethods?.includes(key as any) || false}
-                        onChange={(e) => {
-                          const methods = newMedication.reminderMethods || [];
-                          const updatedMethods = e.target.checked
-                            ? [...methods, key as any]
-                            : methods.filter(m => m !== key);
-                          setNewMedication({ ...newMedication, reminderMethods: updatedMethods });
-                        }}
-                        className="mr-2"
-                      />
-                      <Icon className="h-4 w-4 mr-2 text-gray-500" />
-                      {label}
-                    </label>
-                  ))}
+          <Card className="w-full max-w-md">
+            <div className="p-6">
+              <h2 className="text-xl font-semibold text-gray-900 mb-4">Add New Medication</h2>
+              
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Medication Name</label>
+                  <input
+                    type="text"
+                    value={newMedication.name || ''}
+                    onChange={(e) => setNewMedication({...newMedication, name: e.target.value})}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+                    placeholder="e.g., Paracetamol 500mg"
+                  />
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Dosage</label>
+                  <input
+                    type="text"
+                    value={newMedication.dosage || ''}
+                    onChange={(e) => setNewMedication({...newMedication, dosage: e.target.value})}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+                    placeholder="e.g., 1 tablet"
+                  />
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Duration (days)</label>
+                  <input
+                    type="number"
+                    value={newMedication.days || ''}
+                    onChange={(e) => setNewMedication({...newMedication, days: parseInt(e.target.value)})}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+                    placeholder="7"
+                  />
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Times (comma-separated)</label>
+                  <input
+                    type="text"
+                    value={newMedication.times?.join(', ') || ''}
+                    onChange={(e) => setNewMedication({...newMedication, times: e.target.value.split(',').map(t => t.trim())})}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+                    placeholder="09:00, 21:00"
+                  />
                 </div>
               </div>
+              
+              <div className="flex gap-3 mt-6">
+                <Button onClick={addMedication} className="flex-1">
+                  Add Medication
+                </Button>
+                <Button variant="outline" onClick={() => setShowAddForm(false)} className="flex-1">
+                  Cancel
+                </Button>
+              </div>
             </div>
-
-            <div className="flex space-x-3 mt-6">
-              <Button onClick={addMedication} className="flex-1">
-                Add Medication
-              </Button>
-              <Button 
-                variant="outline" 
-                onClick={() => setShowAddForm(false)}
-                className="flex-1"
-              >
-                Cancel
-              </Button>
-            </div>
-          </motion.div>
+          </Card>
         </div>
       )}
     </div>

@@ -1,5 +1,4 @@
 import React from 'react';
-import { motion } from 'framer-motion';
 
 interface CardProps {
   children: React.ReactNode;
@@ -15,18 +14,16 @@ const Card: React.FC<CardProps> = ({
   onClick 
 }) => {
   const baseClasses = 'bg-white rounded-lg shadow-sm border border-gray-200';
-  const interactiveClasses = hover ? 'cursor-pointer transition-all duration-200 hover:shadow-md hover:border-primary-200' : '';
+  const interactiveClasses = hover ? 'cursor-pointer transition-all duration-200 hover:shadow-md hover:border-primary-200 hover:-translate-y-1 active:scale-98' : '';
 
   if (onClick) {
     return (
-      <motion.div
-        whileHover={hover ? { y: -2 } : {}}
-        whileTap={hover ? { scale: 0.98 } : {}}
+      <div
         className={`${baseClasses} ${interactiveClasses} ${className}`}
         onClick={onClick}
       >
         {children}
-      </motion.div>
+      </div>
     );
   }
 

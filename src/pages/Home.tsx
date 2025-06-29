@@ -13,7 +13,6 @@ import {
   Users,
   ArrowRight
 } from 'lucide-react';
-import { motion } from 'framer-motion';
 import { useLanguage } from '../contexts/LanguageContext';
 import Button from '../components/UI/Button';
 import Card from '../components/UI/Card';
@@ -87,11 +86,7 @@ const Home: React.FC = () => {
       <section className="bg-gradient-to-br from-primary-50 via-white to-secondary-50 py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-            >
+            <div className="animate-fade-in-up">
               <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
                 मेडीबॉट<span className="text-primary-500">+</span>
               </h1>
@@ -111,7 +106,7 @@ const Home: React.FC = () => {
                   </Button>
                 </Link>
               </div>
-            </motion.div>
+            </div>
           </div>
         </div>
       </section>
@@ -123,12 +118,10 @@ const Home: React.FC = () => {
             {stats.map((stat, index) => {
               const Icon = stat.icon;
               return (
-                <motion.div
+                <div
                   key={stat.label}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
-                  className="text-center"
+                  className="text-center animate-fade-in-up"
+                  style={{ animationDelay: `${index * 0.1}s` }}
                 >
                   <div className="flex justify-center mb-4">
                     <div className="bg-primary-100 p-3 rounded-full">
@@ -137,7 +130,7 @@ const Home: React.FC = () => {
                   </div>
                   <div className="text-2xl font-bold text-gray-900 mb-1">{stat.value}</div>
                   <div className="text-sm text-gray-600">{stat.label}</div>
-                </motion.div>
+                </div>
               );
             })}
           </div>
@@ -160,11 +153,10 @@ const Home: React.FC = () => {
             {features.map((feature, index) => {
               const Icon = feature.icon;
               return (
-                <motion.div
+                <div
                   key={feature.title}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
+                  className="animate-fade-in-up"
+                  style={{ animationDelay: `${index * 0.1}s` }}
                 >
                   <Card hover onClick={() => window.location.href = feature.href}>
                     <div className="p-6">
@@ -183,7 +175,7 @@ const Home: React.FC = () => {
                       </div>
                     </div>
                   </Card>
-                </motion.div>
+                </div>
               );
             })}
           </div>
@@ -193,25 +185,17 @@ const Home: React.FC = () => {
       {/* Emergency Section */}
       <section className="py-16 bg-medical-emergency">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6 }}
-          >
+          <div className="animate-fade-in-scale">
             <h2 className="text-3xl font-bold text-white mb-4">
-              Medical Emergency?
+              Emergency? We're Here 24/7
             </h2>
-            <p className="text-xl text-red-100 mb-8">
-              Get immediate assistance and find the nearest emergency services
+            <p className="text-xl text-red-100 mb-8 max-w-2xl mx-auto">
+              Get immediate medical assistance and emergency contact information
             </p>
-            <Button 
-              variant="secondary" 
-              size="lg"
-              className="bg-white text-medical-emergency hover:bg-gray-50"
-            >
+            <Button variant="emergency" size="lg">
               Emergency Help
             </Button>
-          </motion.div>
+          </div>
         </div>
       </section>
 
