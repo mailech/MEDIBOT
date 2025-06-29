@@ -1,13 +1,11 @@
 import React from 'react';
-import { motion, MotionProps } from 'framer-motion';
 
-// Define button props without conflicting animation props
-type ButtonProps = Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, keyof MotionProps> & {
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'primary' | 'secondary' | 'emergency' | 'outline';
   size?: 'sm' | 'md' | 'lg';
   loading?: boolean;
   children: React.ReactNode;
-} & Pick<MotionProps, 'whileHover' | 'whileTap'>;
+}
 
 const Button: React.FC<ButtonProps> = ({
   variant = 'primary',
@@ -16,11 +14,9 @@ const Button: React.FC<ButtonProps> = ({
   children,
   className = '',
   disabled,
-  whileHover = { scale: 1.02 },
-  whileTap = { scale: 0.98 },
   ...props
 }) => {
-  const baseClasses = 'inline-flex items-center justify-center font-medium rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed';
+  const baseClasses = 'inline-flex items-center justify-center font-medium rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-105 active:scale-95';
   
   const variantClasses = {
     primary: 'bg-primary-500 text-white hover:bg-primary-600 focus:ring-primary-500',
@@ -36,9 +32,7 @@ const Button: React.FC<ButtonProps> = ({
   };
 
   return (
-    <motion.button
-      whileHover={whileHover}
-      whileTap={whileTap}
+    <button
       className={`${baseClasses} ${variantClasses[variant]} ${sizeClasses[size]} ${className}`}
       disabled={disabled || loading}
       {...props}
@@ -66,7 +60,7 @@ const Button: React.FC<ButtonProps> = ({
         </svg>
       )}
       {children}
-    </motion.button>
+    </button>
   );
 };
 
