@@ -16,6 +16,7 @@ import {
 import { useLanguage } from '../contexts/LanguageContext';
 import Button from '../components/UI/Button';
 import Card from '../components/UI/Card';
+import HealthMateIntegration from '../components/HealthMateIntegration';
 
 const Home: React.FC = () => {
   const { t } = useLanguage();
@@ -178,6 +179,28 @@ const Home: React.FC = () => {
                 </div>
               );
             })}
+          </div>
+        </div>
+      </section>
+
+      {/* HealthMate AI Integration Section */}
+      <section className="py-20 bg-gradient-to-r from-blue-50 to-indigo-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+              Meet HealthMate - Your AI Healthcare Assistant
+            </h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              Experience the future of healthcare with our AI-powered voice assistant. 
+              Get instant support for appointments, medications, and medical information.
+            </p>
+          </div>
+          
+          <div className="flex justify-center">
+            <HealthMateIntegration 
+              agentId="2975"
+              apiKey="kafOrESBOQUMZ8Cj6D901kvedWE-usYDCKXtsewqjgI"
+            />
           </div>
         </div>
       </section>
