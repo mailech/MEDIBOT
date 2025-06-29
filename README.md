@@ -2,6 +2,12 @@
 
 A comprehensive healthcare platform that provides AI-powered medical assistance, medication management, hospital finder, and voice-based healthcare support in multiple Indian languages.
 
+## 🌐 Live Demo
+
+**🚀 Live Application**: [https://cap-sule.netlify.app/](https://cap-sule.netlify.app/)
+
+Experience the full HealthMate AI integration and all healthcare features in action!
+
 ## 🚀 New Feature: HealthMate AI Voice Assistant
 
 ### What is HealthMate?
@@ -189,7 +195,25 @@ HealthMate: "Great! I've scheduled your appointment. Is there anything else you 
 4. Start the development server
 5. Test HealthMate integration
 
-## 📱 Technologies Used
+## 📦 Deployment
+
+This application is deployed on Netlify:
+
+- **🌐 Production URL**: [https://cap-sule.netlify.app/](https://cap-sule.netlify.app/)
+- **🔧 Platform**: Netlify
+- **⚡ Auto-Deploy**: Push updates to main branch for automatic deployment
+- **📱 Status**: Live and fully functional with HealthMate AI integration
+
+### Deployment Features:
+- ✅ HealthMate AI Voice Assistant integration
+- ✅ Multi-language healthcare support
+- ✅ AI Symptom Checker
+- ✅ Smart Medication Reminders
+- ✅ Hospital Finder
+- ✅ Voice Assistant
+- ✅ Responsive design for all devices
+
+## �� Technologies Used
 
 - React + TypeScript
 - Tailwind CSS
