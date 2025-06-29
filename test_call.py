@@ -1,7 +1,7 @@
 from omnidimension import Client
 
 # Your API key
-api_key = "kafOrESBOQUMZ8Cj6D901kvedWE-usYDCKXtsewqjgI"
+api_key = ""
 client = Client(api_key)
 
 # Your agent ID
