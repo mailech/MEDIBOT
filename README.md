@@ -8,6 +8,19 @@ A comprehensive healthcare platform that provides AI-powered medical assistance,
 
 Experience the full HealthMate AI integration and all healthcare features in action!
 
+## 📋 Table of Contents
+
+- [🚀 HealthMate AI Voice Assistant](#-new-feature-healthmate-ai-voice-assistant)
+- [🐍 Python Scripts](#-python-scripts-for-healthmate-ai)
+- [🏥 Core Features](#-core-features)
+- [🌍 Language Support](#-language-support)
+- [🚀 Quick Start](#-quick-start)
+- [📦 Deployment](#-deployment)
+- [📱 Technologies Used](#-technologies-used)
+- [🤝 Contributing](#-contributing)
+
+---
+
 ## 🚀 New Feature: HealthMate AI Voice Assistant
 
 ### What is HealthMate?
@@ -145,6 +158,111 @@ HealthMate: "Great! I've scheduled your appointment. Is there anything else you 
 - **Agent ID**: 2975
 - **Status**: Active and ready for production use
 
+## 🐍 Python Scripts for HealthMate AI
+
+This repository includes several Python scripts to help you understand, test, and integrate the HealthMate AI agent:
+
+### 📁 Available Scripts
+
+#### 1. **`test_omnidimension.py`** - Agent Creation & Testing
+- **Purpose**: Creates and tests the HealthMate AI agent
+- **What it does**:
+  - Initializes OmniDimension client with your API key
+  - Creates the HealthMate agent with all healthcare configurations
+  - Tests the agent creation process
+  - Displays agent ID and status
+- **Usage**: `python test_omnidimension.py`
+- **Output**: Agent creation status and ID (2975)
+
+#### 2. **`explain_usage.py`** - How OmniDimension Works
+- **Purpose**: Comprehensive explanation of the AI agent system
+- **What it does**:
+  - Explains what you've created (voice AI agent)
+  - Shows how it works in practice
+  - Lists all capabilities and features
+  - Provides real-world use cases
+  - Shows example conversation flows
+- **Usage**: `python explain_usage.py`
+- **Output**: Detailed explanation of the system
+
+#### 3. **`test_call.py`** - Testing & Integration Guide
+- **Purpose**: Shows how to test and integrate the agent
+- **What it does**:
+  - Lists all testing options (web dashboard, phone number, API)
+  - Shows what happens during a call
+  - Explains special features (multilingual, web search, etc.)
+  - Provides business value insights
+- **Usage**: `python test_call.py`
+- **Output**: Testing instructions and integration options
+
+#### 4. **`integration_options.py`** - Complete Integration Guide
+- **Purpose**: Comprehensive guide for integrating HealthMate
+- **What it does**:
+  - Lists immediate testing options
+  - Shows API integration possibilities
+  - Provides testing scenarios
+  - Lists real integration locations
+  - Gives quick start steps
+- **Usage**: `python integration_options.py`
+- **Output**: Complete integration roadmap
+
+### 🚀 Quick Script Execution
+
+```bash
+# Install required library
+pip install omnidimension
+
+# Create and test your agent
+python test_omnidimension.py
+
+# Learn how it works
+python explain_usage.py
+
+# See testing options
+python test_call.py
+
+# Get integration guide
+python integration_options.py
+```
+
+### 📊 Script Output Examples
+
+#### Agent Creation Output:
+```
+Status: 200
+Created Agent: {'id': 2975, 'name': 'HealthMate', 'status': 'Completed'}
+Agent ID: 2975
+```
+
+#### Usage Explanation Output:
+```
+=== HOW OMNIDIMENSION WORKS ===
+
+1. WHAT YOU JUST CREATED:
+   - A voice AI agent named 'HealthMate'
+   - It can have real phone conversations with people
+   - It speaks using ElevenLabs voice (sounds human)
+   - It listens using Deepgram (speech-to-text)
+   - It thinks using GPT-4o-mini (AI brain)
+   - It can search the web for information
+```
+
+### 🔧 Script Configuration
+
+All scripts use the same configuration:
+- **API Key**: `kafOrESBOQUMZ8Cj6D901kvedWE-usYDCKXtsewqjgI`
+- **Agent ID**: 2975
+- **Platform**: OmniDimension
+
+### 📝 Script Purposes Summary
+
+| Script | Purpose | Key Function |
+|--------|---------|--------------|
+| `test_omnidimension.py` | Agent Creation | Creates and tests HealthMate agent |
+| `explain_usage.py` | Education | Explains how the AI system works |
+| `test_call.py` | Testing Guide | Shows how to test the agent |
+| `integration_options.py` | Integration | Complete integration roadmap |
+
 ---
 
 ## 🏥 Core Features
@@ -213,7 +331,7 @@ This application is deployed on Netlify:
 - ✅ Voice Assistant
 - ✅ Responsive design for all devices
 
-## �� Technologies Used
+## 📱 Technologies Used
 
 - React + TypeScript
 - Tailwind CSS
